@@ -1,1 +1,1 @@
-# most code comes from [CocoNLP](https://github.com/fighting41love/cocoNLP)
+# most codes comes from [CocoNLP](https://github.com/fighting41love/cocoNLP), thanks for their contribution.
