@@ -1,0 +1,29 @@
+digraph {
+    graph [dpi=300, fontname="Inconsolata, Consolas", fontsize=10, penwidth=0.5, labeljust=left] 
+    node [shape=box, fontname="Inconsolata, Consolas", fontsize=10, penwidth=0.5]
+    edge [fontname="Inconsolata, Consolas", fontsize=10, penwidth=0.5]
+
+    subgraph clusterTraining {
+        label="Training"
+        Input_Training, Feature_Extractor_Training, Feature_Training, Label_Training, Machine_Learning_Algorithms_Training
+    }
+    
+    subgraph clusterPrediction {
+        label="Prediction"
+        Input, Feature_Extractor, Feature, Label, Classification_Model
+    }
+    
+    {
+        Label_Training -> Machine_Learning_Algorithms_Training
+        Input_Training -> Feature_Extractor_Training
+        Feature_Extractor_Training -> Feature_Training
+        Feature_Training -> Machine_Learning_Algorithms_Training
+        Machine_Learning_Algorithms_Training -> Classification_Model
+    }
+    {
+        Input -> Feature_Extractor
+        Feature_Extractor -> Feature
+        Feature -> Classification_Model
+        Classification_Model -> Label
+    }
+}

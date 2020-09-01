@@ -3,12 +3,19 @@ import re
 from itertools import groupby
 from pyhanlp import *
 
+import urllib
+import urllib.request
+import urllib.parse
+
+from bs4 import BeautifulSoup
+
 __all__ = ['get_location', 'extract_locations']
 
 class extractor():
     def __init__(self):
         pass
 
+    # 地名词列
     def get_location(self, word_pos_list):
         location_list = []
         if word_pos_list==[]:
@@ -16,6 +23,7 @@ class extractor():
         for i,t in enumerate(word_pos_list):
             word = t[0]
             nature = t[1]
+            # 词性为地名
             if nature == 'ns':
                 loc_tmp = word
                 count = i + 1
@@ -35,12 +43,36 @@ class extractor():
     def extract_locations(self, text):
         if text=='':
             return []
+        ## word词 nature词性标注 分词
         seg_list = [(str(t.word), str(t.nature)) for t in HanLP.segment(text)]
         location_list = self.get_location(seg_list)
         return location_list
 
+##def lexical_diversity(text):
+    
+
+from collections import Counter
+
 
 if __name__ == '__main__':
 
-    text = '新型冠状病毒肺炎（Corona Virus Disease 2019，COVID-19），简称“新冠肺炎”，世界卫生组织命名为“2019冠状病毒病”，是指2019新型冠状病毒感染导致的肺炎。2019年12月以来，湖北省武汉市部分医院陆续发现了多例有华南海鲜市场暴露史的不明原因肺炎病例，现已证实为2019新型冠状病毒感染引起的急性呼吸道传染病。'
-    print(extractor().extract_locations(text))
+    url = "https://search.sina.com.cn/?range=title&num=20&c=news&col=1_3&sort=time&q="
+
+    key = urllib.parse.quote("新冠肺炎疫情")
+    url = url + key
+    
+    webpage = urllib.request.urlopen(url) # 根据超链访问链接的网页
+    data = webpage.read() # 读取超链网页数据
+    contents = BeautifulSoup(data, 'html.parser')
+##    inputxt = open("input.txt", "rt", encoding='utf-8') # open lorem.txt for reading text
+##    contents = inputxt.read()
+##    inputxt.close()                   # close the file
+
+    print(contents)
+    keywords = extractor().extract_locations(contents.text)
+
+    word_freq = Counter(keywords)
+    common_words = word_freq.most_common(10)
+    print (common_words)
+
+

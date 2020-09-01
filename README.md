@@ -1,1 +1,1 @@
-# most codes comes from [CocoNLP](https://github.com/fighting41love/cocoNLP), thanks for their contribution.
+# [hanlp](https://github.com/hankcs/pyhanlp), thanks for their contribution.
